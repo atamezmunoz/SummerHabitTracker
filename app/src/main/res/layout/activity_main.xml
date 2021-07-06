@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        ></LinearLayout>
+
+    <TextView
+        android:id="@+id/first"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Habits Database"
+        android:gravity="center"
+        android:textSize="26dp"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"></LinearLayout>
+
+    <TextView
+        android:id="@+id/nameOfHabit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name of Habit" />
+
+    <EditText
+        android:id="@+id/nameOfHabitEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/Frequency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Frequency" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        >
+
+
+    <CheckBox
+        android:id="@+id/sunday"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="S" />
+
+    <CheckBox
+        android:id="@+id/monday"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="M" />
+
+    <CheckBox
+        android:id="@+id/tuesday"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="T" />
+
+    <CheckBox
+        android:id="@+id/wednesday"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="W" />
+
+    <CheckBox
+        android:id="@+id/thursday"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="T" />
+
+    <CheckBox
+        android:id="@+id/friday"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="F" />
+
+    <CheckBox
+        android:id="@+id/saturday"
+        android:layout_width="50sp"
+        android:layout_height="wrap_content"
+        android:text="S" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/startDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start date" />
+
+    <EditText
+        android:id="@+id/startDateEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/endDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="End date" />
+
+    <EditText
+        android:id="@+id/endDateEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/reminders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reminders" />
+
+    <ToggleButton
+        android:id="@+id/tgbtn1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/ReminderTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reminder time" />
+
+    <EditText
+        android:id="@+id/reminderTimeEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+</LinearLayout>
+
