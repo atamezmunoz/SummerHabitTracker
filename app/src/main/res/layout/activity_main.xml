@@ -63,17 +63,19 @@
         >
 
 
-    <CheckBox
-        android:id="@+id/sunday"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:text="S" />
+        <CheckBox
+            android:id="@+id/sunday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SUN"
+            android:textSize="12sp" />
 
-    <CheckBox
-        android:id="@+id/monday"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:text="M" />
+        <CheckBox
+            android:id="@+id/monday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MON"
+            android:textSize="12sp" />
 
     <CheckBox
         android:id="@+id/tuesday"
