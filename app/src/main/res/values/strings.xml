@@ -3,4 +3,12 @@
     <string name="login_button">Login</string>
     <string name="add_button">Add</string>
     <string name="input_username">Name</string>
+    <string name="col2">S</string>
+    <string name="col3">M</string>
+    <string name="col4">T</string>
+    <string name="col5">W</string>
+    <string name="col6">T</string>
+    <string name="col7">F</string>
+    <string name="col8">S</string>
+
 </resources>
