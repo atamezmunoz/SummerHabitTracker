@@ -99,12 +99,12 @@ public class Streak {
     private String getTheDay() {
         Map<Integer, String> weekMap = new HashMap<>(7);
         weekMap.put(1, "Sunday");
-        weekMap.put(2, "monday");
-        weekMap.put(3, "tuesday");
-        weekMap.put(4, "wednesday");
-        weekMap.put(5, "thursday");
-        weekMap.put(6, "friday");
-        weekMap.put(7, "saturday");
+        weekMap.put(2, "Monday");
+        weekMap.put(3, "Tuesday");
+        weekMap.put(4, "Wednesday");
+        weekMap.put(5, "Thursday");
+        weekMap.put(6, "Friday");
+        weekMap.put(7, "Saturday");
 
         Calendar calendar = Calendar.getInstance();
 //        System.out.println(calendar.get(Calendar.DAY_OF_WEEK));
