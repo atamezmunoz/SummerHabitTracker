@@ -5,6 +5,7 @@ import androidx.core.content.res.TypedArrayUtils;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -126,7 +127,8 @@ public class MainActivity extends AppCompatActivity {
         addHabitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userGUID = UUID.randomUUID().toString();
+                Intent userGUIDIntent = getIntent();
+                String userGUID = userGUIDIntent.getStringExtra("userGUID");
                 String habitName = nameOfHabitEdit.getText().toString();
                 String frequencyString = String.join(",", getFrequency());
                 boolean reminders = tgbtn.isChecked();
@@ -142,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addData(String habitName, String frequency, boolean reminders, String startDate, String endDate, String reminderTime, String userGUID){
-        boolean insertData = mDatabaseHandler.addData(habitName, frequency, reminders, startDate, endDate, reminderTime, userGUID);
+        boolean insertData = mDatabaseHandler.addHabitData(habitName, frequency, reminders, startDate, endDate, reminderTime, userGUID);
         if(insertData){
             toastMessage("Data Successfully Inserted");
         } else {
