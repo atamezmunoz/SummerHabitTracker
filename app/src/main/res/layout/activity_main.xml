@@ -67,14 +67,14 @@
             android:id="@+id/sunday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SUN"
+            android:text="S"
             android:textSize="12sp" />
 
         <CheckBox
             android:id="@+id/monday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MON"
+            android:text="M"
             android:textSize="12sp" />
 
     <CheckBox
