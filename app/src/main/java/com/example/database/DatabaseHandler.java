@@ -2,6 +2,7 @@ package com.example.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -10,9 +11,18 @@ import androidx.annotation.Nullable;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-    private static final String TAG = "DatabaseHandler";
+    private static final String DATABASE_NAME = "HabitApp";
 
+    //table names
     private static final String TABLE_NAME = "habitTable";
+    private static final String TABLE_USER = "userTable";
+
+    //userTable Columns
+    private static final String FIRST_NAME = "FirstName";
+    private static final String LAST_NAME = "LastName";
+    private static final String USER_GUID = "UserGuid";
+
+    //habitTable columns
     private static final String COL0 = "HabitGuid";
     private static final String COL1 = "UserGuid";
     private static final String COL2 = "HabitName";
@@ -25,12 +35,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     public DatabaseHandler(@Nullable Context context) {
-        super(context, TABLE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTable = "CREATE TABLE " + TABLE_NAME +  " (" +
+        String userTable = "CREATE TABLE " + TABLE_USER +  " (" +
+                FIRST_NAME + " TEXT, " +
+                LAST_NAME + " TEXT, " +
+                USER_GUID + " TEXT );";
+
+        String habitTable = "CREATE TABLE " + TABLE_NAME +  " (" +
                 COL0 + " TEXT, " +
                 COL1 + " TEXT, " +
                 COL2 + " TEXT, " +
@@ -39,7 +54,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 COL5 + " TEXT, " +
                 COL6 + " BOOLEAN," +
                 COL7 + " TEXT );";
-        db.execSQL(createTable);
+        db.execSQL(habitTable);
+        db.execSQL(userTable);
 
     }
 
@@ -49,7 +65,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addData(String item, String frequency, boolean reminders, String startDate, String endDate, String reminderTime, String userGUID){
+    public boolean addHabitData(String item, String frequency, boolean reminders, String startDate, String endDate, String reminderTime, String userGUID){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL1, userGUID);
@@ -60,7 +76,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         contentValues.put(COL6, reminders);
         contentValues.put(COL7, reminderTime);
 
-        Log.d(TAG, "addData: Adding " + item + "to " + TABLE_NAME);
+        Log.d(TABLE_NAME, "addData: Adding " + item + "to " + TABLE_NAME);
 
         long result = db.insert(TABLE_NAME, null, contentValues);
 
@@ -74,4 +90,48 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     }
+
+    public boolean addUserData(String first, String last, String userGUID){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(FIRST_NAME, first);
+        contentValues.put(LAST_NAME, last);
+        contentValues.put(USER_GUID, userGUID);
+
+        Log.d(DATABASE_NAME, "addData: Adding " + first + last + "to " + TABLE_USER);
+
+        long result = db.insert(TABLE_USER, null, contentValues);
+
+        //if inserted incorrectly returns -1
+
+        if(result == -1){
+            return false;
+        } else {
+            return true;
+        }
+
+
+    }
+    public Cursor getData(String tableName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + tableName;
+        Cursor data = db.rawQuery(query, null);
+
+        return data;
+
+    }
+
+    public Cursor getUserGUID(String tableName, String userGUID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + tableName + " WHERE UserGuid = ?";
+
+
+
+        Cursor data = db.rawQuery(query, new String[] {userGUID} );
+
+        return data;
+
+    }
+
+
 }
