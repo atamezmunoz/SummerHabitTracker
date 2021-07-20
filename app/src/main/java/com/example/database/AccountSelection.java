@@ -3,6 +3,7 @@ package com.example.database;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -37,8 +38,26 @@ public class AccountSelection extends AppCompatActivity {
                 sendUserGUID.putExtra("userGUID", userGUIDList.get(i));
                 startActivity(sendUserGUID);
 
+                User newUser = new User();
+                String uuid = userGUIDList.get(i);
+                newUser.setUuid(uuid);
+                ArrayList<String> names = getName(uuid);
+                System.out.println(names.toString());
+                newUser.setFirstName(names.get(0));
+                newUser.setLastName(names.get(1));
 
+                SharedPreferences sharedPreferences =  getApplicationContext().getSharedPreferences("UserDB", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear().apply();
 
+                // Store the user info
+                editor.putString("Username", newUser.getName());
+                editor.putString("uuid", uuid);
+                System.out.println(newUser.getName());
+                System.out.println(uuid);
+
+                // Commits the changes and add them to the file
+                editor.apply();
             }
         });
     }
@@ -70,4 +89,16 @@ public class AccountSelection extends AppCompatActivity {
     }
 
 
+    private ArrayList<String> getName(String uuid) {
+        ArrayList<String> names = new ArrayList<>();
+        Cursor data = mDatabaseHandler.getUserGUID("userTable", uuid);
+        while (data.moveToNext()){
+            String firstName = data.getString(0);
+            names.add(firstName);
+            String lastName = data.getString(1);
+            names.add(lastName);
+        }
+        return names;
+
+    }
  }

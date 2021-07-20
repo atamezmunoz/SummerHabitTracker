@@ -3,6 +3,7 @@ package com.example.database;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -58,6 +59,18 @@ public class LoginActivity extends AppCompatActivity {
         intent.putExtra("userGUID", userGUID);
         startActivity(intent);
         addUserData(first, last, userGUID);
+
+        User newUser = new User(first, last, userGUID);
+        SharedPreferences sharedPreferences =  getApplicationContext().getSharedPreferences("UserDB", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.clear().apply();
+        // Store the user info
+        editor.putString("Username", newUser.getName());
+        editor.putString("uuid", userGUID);
+
+        // Commits the changes and add them to the file
+        editor.apply();
 
 
     }

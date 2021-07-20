@@ -7,6 +7,7 @@ import androidx.core.content.res.TypedArrayUtils;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     DatabaseHandler mDatabaseHandler;
+    SharedPreferences sharedPreferences;
 
 
     EditText startDateEdit;
@@ -131,8 +133,17 @@ public class MainActivity extends AppCompatActivity {
         addHabitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent userGUIDIntent = getIntent();
-                String userGUID = userGUIDIntent.getStringExtra("userGUID");
+
+                String userGUID = "`";
+                sharedPreferences = getApplicationContext().getSharedPreferences("UserDB", MODE_PRIVATE);
+                if (sharedPreferences != null) {
+
+                    String savedUserName = sharedPreferences.getString("Username", "");
+                    userGUID = sharedPreferences.getString("uuid", "");
+
+                }
+//                Intent userGUIDIntent = getIntent();
+//                String userGUID = userGUIDIntent.getStringExtra("userGUID");
                 String habitName = nameOfHabitEdit.getText().toString();
                 String frequencyString = String.join(",", getFrequency());
                 boolean reminders = tgbtn.isChecked();

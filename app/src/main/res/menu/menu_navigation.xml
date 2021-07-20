@@ -11,6 +11,11 @@
         android:icon="@drawable/ic_home"/>
 
     <item
+        android:id="@+id/inProgress"
+        android:title="InProgress"
+        android:icon="@drawable/ic__wysiwyg"/>
+
+    <item
         android:id="@+id/settings"
         android:title="Settings"
         android:icon="@drawable/ic_settings"/>

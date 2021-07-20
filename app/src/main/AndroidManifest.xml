@@ -11,7 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Database">
-        <activity android:name=".InProgressHabits"></activity>
+        <activity android:name=".Notification"></activity>
+        <activity
+            android:name=".InProgressHabits"
+            android:label="InProgress" />
         <activity android:name=".AccountSelection" />
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -24,9 +27,17 @@
             android:name=".HomeActivity"
             android:label="Home" />
         <activity
+            android:name=".SettingsActivity"
+            android:label="Setting" />
+        <activity
+            android:name=".DashboardActivity"
+            android:label="Dashboard" />
+        <activity
             android:name=".MainActivity"
             android:label="Add"
             android:parentActivityName=".HomeActivity" />
+
+        <receiver android:name=".AlarmReceiver"/>
 
         <meta-data
             android:name="preloaded_fonts"

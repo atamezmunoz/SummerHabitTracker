@@ -37,6 +37,10 @@ public class SettingsActivity extends AppCompatActivity {
                         return true;
                     case R.id.settings:
                         return true;
+                    case R.id.inProgress:
+                        startActivity(new Intent(getApplicationContext(), InProgressHabits.class));
+                        overridePendingTransition(0, 0);
+                        return true;
                 }
                 return false;
             }

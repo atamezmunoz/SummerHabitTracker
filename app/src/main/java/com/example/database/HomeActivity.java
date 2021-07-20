@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
+
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +37,13 @@ public class HomeActivity extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.home:
-                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                        overridePendingTransition(0, 0);
                         return true;
                     case R.id.settings:
                         startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.inProgress:
+                        startActivity(new Intent(getApplicationContext(), InProgressHabits.class));
                         overridePendingTransition(0, 0);
                         return true;
                 }
@@ -46,13 +51,16 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        Intent getName = getIntent();
-        String message = getName.getStringExtra("WELCOME");
-        if (message != null) {
-            ((TextView) findViewById(R.id.welcome)).setText("Hello " + message + "!");
-        } else {
-            ((TextView) findViewById(R.id.welcome)).setText("Null");
+        sharedPreferences = getApplicationContext().getSharedPreferences("UserDB", MODE_PRIVATE);
+        if (sharedPreferences != null) {
+
+            String savedUserName = sharedPreferences.getString("Username", "");
+            String savedUuid = sharedPreferences.getString("uuid", "");
+
+            ((TextView) findViewById(R.id.welcome)).setText("Hello " + savedUserName + "!");
+
         }
+
     }
 
     public void add(View v) {
