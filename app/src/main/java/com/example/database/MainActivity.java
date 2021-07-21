@@ -2,9 +2,12 @@ package com.example.database;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.res.TypedArrayUtils;
 
 import android.app.DatePickerDialog;
+import android.app.Notification;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,6 +41,7 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
+    NotificationManagerCompat notificationManager;
 
     DatabaseHandler mDatabaseHandler;
     SharedPreferences sharedPreferences;
@@ -74,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         saturday = findViewById(R.id.saturday);
         tgbtn = findViewById(R.id.tgbtn1);
         mDatabaseHandler = new DatabaseHandler(this);
+
+        notificationManager = NotificationManagerCompat.from(this);
 
 
 
@@ -153,6 +159,9 @@ public class MainActivity extends AppCompatActivity {
                 addData(habitName, frequencyString, reminders, startDate, endDate, reminderTime, userGUID);
 
 
+                sendOnChannel1();
+
+
             }
         });
 
@@ -196,4 +205,21 @@ public class MainActivity extends AppCompatActivity {
     private void toastMessage(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
+    private void sendOnChannel1() {
+
+        String habit = nameOfHabitEdit.getText().toString();
+
+        Notification notification = new NotificationCompat.Builder(this, App.CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.ic_habit)
+                .setContentTitle("Don't Forget About Your Habit")
+                .setContentText(habit)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+
+        notificationManager.notify(1, notification);
+    }
+
+
 }
