@@ -6,21 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".InProgressHabits">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="In progress habits"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
 
     <ListView
         android:id="@+id/habitList"
         android:layout_width="409dp"
         android:layout_height="729dp"
         tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="In Progress Habits"
-        android:textSize="50sp"
-        android:textStyle="bold"
-        android:layout_centerInParent="true"/>
+        tools:layout_editor_absoluteY="1dp"
+        android:paddingTop="40dp"></ListView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
