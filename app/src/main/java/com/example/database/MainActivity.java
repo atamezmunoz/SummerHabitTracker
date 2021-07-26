@@ -20,6 +20,7 @@ import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -133,12 +134,13 @@ public class MainActivity extends AppCompatActivity {
 //                Intent userGUIDIntent = getIntent();
 //                String userGUID = userGUIDIntent.getStringExtra("userGUID");
                 String habitName = nameOfHabitEdit.getText().toString();
+                String habitGUID = UUID.randomUUID().toString();
                 String frequencyString = String.join(",", getFrequency());
                 boolean reminders = tgbtn.isChecked();
                 String startDate = startDateEdit.getText().toString();
                 String endDate = endDateEdit.getText().toString();
                 String reminderTime = reminderTimeEdit.getText().toString();
-                addData(habitName, frequencyString, reminders, startDate, endDate, reminderTime, userGUID);
+                addData(habitName, frequencyString, reminders, startDate, endDate, reminderTime, userGUID, habitGUID);
 
 
                 sendOnChannel1();
@@ -149,8 +151,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void addData(String habitName, String frequency, boolean reminders, String startDate, String endDate, String reminderTime, String userGUID){
-        boolean insertData = mDatabaseHandler.addHabitSettingsData(habitName, frequency, reminders, startDate, endDate, reminderTime, userGUID);
+    private void addData(String habitName, String frequency, boolean reminders, String startDate, String endDate, String reminderTime, String userGUID, String habitGUID){
+        boolean insertData = mDatabaseHandler.addHabitData(habitName, frequency, reminders, startDate, endDate, reminderTime, userGUID, habitGUID);
         if(insertData){
             toastMessage("Data Successfully Inserted");
         } else {

@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -65,6 +67,7 @@ public class InProgressHabits extends AppCompatActivity {
 
         populateListView();
 
+
     }
 
     private void populateListView() {
@@ -92,5 +95,19 @@ public class InProgressHabits extends AppCompatActivity {
         ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, habitList);
         habitListView.setAdapter(adapter);
     }
+
+    private void completeHabit(){
+        habitListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = (String) parent.getItemAtPosition(position);
+                //selectedItem.
+            }
+        });
+    }
+
+    //private void updateCompleted(){
+        //Cursor data = mDatabaseHandler.
+    //}
 
 }

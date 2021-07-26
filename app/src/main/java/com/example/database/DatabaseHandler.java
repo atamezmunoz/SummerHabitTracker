@@ -14,9 +14,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "HabitApp";
 
     //table names
-    private static final String TABLE_HABIT_SETTINGS = "habitSettingsTable";
+    private static final String TABLE_HABIT = "habitTable";
     private static final String TABLE_USER = "userTable";
-    public static final String TABLE_HABIT = "habitTable";
+
 
     //userTable Columns
     private static final String FIRST_NAME = "FirstName";
@@ -32,15 +32,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String COL5 = "EndDate";
     private static final String COL6 = "Reminders";
     private static final String COL7 = "ReminderTime";
-
-    //habitTable Columns
-
-    //enter each time (user enters int)
-    public static final String WATER = "WaterDrank";
-    //use gps to track steps (int is tracked by GPS)
-    public static final String STEPS = "StepsWalked";
-    //click completed (bool)
-    public static final String STRETCH = "Stretch";
+    public static final String SUCCESS = "SuccessRate";
+    public static final String STREAK = "Streak";
+    public static final String COMPLETED = "DaysCompleted";
 
 
 
@@ -55,7 +49,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 LAST_NAME + " TEXT, " +
                 USER_GUID + " TEXT );";
 
-        String habitSettingsTable = "CREATE TABLE " + TABLE_HABIT_SETTINGS +  " (" +
+        String habitTable = "CREATE TABLE " + TABLE_HABIT +  " (" +
                 COL0 + " TEXT, " +
                 COL1 + " TEXT, " +
                 COL2 + " TEXT, " +
@@ -63,28 +57,27 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 COL4 + " TEXT, " +
                 COL5 + " TEXT, " +
                 COL6 + " BOOLEAN," +
-                COL7 + " TEXT );";
+                COL7 + " TEXT," +
+                STREAK + " INTEGER," +
+                COMPLETED + " INTEGER," +
+                SUCCESS + " INTEGER );";
 
-        String habitTable = "CREATE TABLE " + TABLE_HABIT +  " (" +
-                WATER + " INT, " +
-                STEPS + " INT, " +
-                STRETCH + " BOOLEAN );";
 
         db.execSQL(habitTable);
-        db.execSQL(habitSettingsTable);
         db.execSQL(userTable);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_HABIT_SETTINGS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_HABIT);
         onCreate(db);
     }
 
-    public boolean addHabitSettingsData(String item, String frequency, boolean reminders, String startDate, String endDate, String reminderTime, String userGUID){
+    public boolean addHabitData(String item, String frequency, boolean reminders, String startDate, String endDate, String reminderTime, String userGUID, String habitGUID){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put(COL0, habitGUID);
         contentValues.put(COL1, userGUID);
         contentValues.put(COL2, item);
         contentValues.put(COL3, frequency);
@@ -93,9 +86,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         contentValues.put(COL6, reminders);
         contentValues.put(COL7, reminderTime);
 
-        Log.d(TABLE_HABIT_SETTINGS, "addData: Adding " + item + "to " + TABLE_HABIT_SETTINGS);
+        Log.d(TABLE_HABIT, "addData: Adding " + item + "to " + TABLE_HABIT);
 
-        long result = db.insert(TABLE_HABIT_SETTINGS, null, contentValues);
+        long result = db.insert(TABLE_HABIT, null, contentValues);
 
         //if inserted incorrectly returns -1
 
@@ -149,6 +142,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return data;
 
     }
+
+    public Cursor getHabitGUID(String tableName, String habitGUID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + tableName + " WHERE HabitGuid = ?";
+
+
+
+        Cursor data = db.rawQuery(query, new String[] {habitGUID} );
+
+        return data;
+    }
+
+
 
 
 
