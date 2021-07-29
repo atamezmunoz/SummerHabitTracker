@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.TypedArrayUtils;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,8 +38,10 @@ import java.util.Calendar;
 import java.util.StringJoiner;
 import java.util.UUID;
 
-public class MainActivity extends AppCompatActivity {
+import static android.widget.Toast.makeText;
 
+public class MainActivity extends AppCompatActivity {
+    private int notificationId = 1;
 
     DatabaseHandler mDatabaseHandler;
     SharedPreferences sharedPreferences;
@@ -152,6 +156,40 @@ public class MainActivity extends AppCompatActivity {
                 String reminderTime = reminderTimeEdit.getText().toString();
                 addData(habitName, frequencyString, reminders, startDate, endDate, reminderTime, userGUID);
 
+                Habit newHabit = new Habit(habitName, frequencyString, startDate, endDate, reminders, reminderTime);
+
+                //Set notificationId & message
+                Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+                intent.putExtra("notificationId", notificationId);
+                intent.putExtra("message", "You have a habit to keep: " + habitName);
+
+                //PendingIntent
+                PendingIntent alarmIntent = PendingIntent.getBroadcast(
+                        MainActivity.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT
+                );
+
+                // AlarmManager
+                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+                if (v.getId() == R.id.button) {
+                    // Set Alarm
+                    int hour = timeHour;
+                    int minute = timeMinutes;
+
+                    // Create time
+                    Calendar startTime = Calendar.getInstance();
+                    startTime.set(Calendar.HOUR_OF_DAY, hour);
+                    startTime.set(Calendar.MINUTE, minute);
+                    startTime.set(Calendar.SECOND, 0);
+                    long alarmSetTime = startTime.getTimeInMillis();
+
+                    // Set Alarm
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, alarmSetTime, alarmIntent);
+                    toastMessage("Done!");
+                }
+
+
+
 
             }
         });
@@ -194,6 +232,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void toastMessage(String message){
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
