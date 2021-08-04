@@ -1,9 +1,11 @@
 package com.example.database;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,8 +14,8 @@ public class Streak {
     long score;
 
     // Constructor.
-    public Streak() {
-        this.habits = new ArrayList<>();
+    public Streak(ArrayList<Habit> habits) {
+        this.habits = habits;
         score = 0;
     }
 
@@ -32,15 +34,19 @@ public class Streak {
         ArrayList<Habit> todayHabits = new ArrayList<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         for (Habit habit : habits) {
-            String start = habit.startDate;
-            String end = habit.endDate;
-            String today = dateFormat.format(Calendar.getInstance().getTime());
-            if ((start.compareTo(today) <= 0) && today.compareTo(end) <= 0) {
-                String day = getTheDay();
-                String[] frequency = habit.getFrequencyList();
-                if (contains(frequency, day)) {
-                    todayHabits.add(habit);
+            try {
+                Date start = dateFormat.parse(habit.startDate);
+                Date end = dateFormat.parse(habit.endDate);
+                Date today = Calendar.getInstance().getTime();
+                if (!start.after(today) && !end.before(today)) {
+                    String day = getTheDay();
+                    String[] frequency = habit.getFrequencyList();
+                    if (contains(frequency, day)) {
+                        todayHabits.add(habit);
+                    }
                 }
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
         }
         return todayHabits;

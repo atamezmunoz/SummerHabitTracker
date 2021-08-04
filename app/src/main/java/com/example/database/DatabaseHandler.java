@@ -14,15 +14,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "HabitApp";
 
     //table names
-    private static final String TABLE_NAME = "habitTable";
+    private static final String TABLE_HABIT = "habitTable";
     private static final String TABLE_USER = "userTable";
+
 
     //userTable Columns
     private static final String FIRST_NAME = "FirstName";
     private static final String LAST_NAME = "LastName";
     private static final String USER_GUID = "UserGuid";
 
-    //habitTable columns
+    //habitSettingsTable columns
     private static final String COL0 = "HabitGuid";
     private static final String COL1 = "UserGuid";
     private static final String COL2 = "HabitName";
@@ -31,6 +32,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String COL5 = "EndDate";
     private static final String COL6 = "Reminders";
     private static final String COL7 = "ReminderTime";
+    public static final String SUCCESS = "SuccessRate";
+    public static final String STREAK = "Streak";
+    public static final String COMPLETED = "DaysCompleted";
 
 
 
@@ -45,7 +49,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 LAST_NAME + " TEXT, " +
                 USER_GUID + " TEXT );";
 
-        String habitTable = "CREATE TABLE " + TABLE_NAME +  " (" +
+        String habitTable = "CREATE TABLE " + TABLE_HABIT +  " (" +
                 COL0 + " TEXT, " +
                 COL1 + " TEXT, " +
                 COL2 + " TEXT, " +
@@ -53,7 +57,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 COL4 + " TEXT, " +
                 COL5 + " TEXT, " +
                 COL6 + " BOOLEAN," +
-                COL7 + " TEXT );";
+                COL7 + " TEXT," +
+                STREAK + " INTEGER," +
+                COMPLETED + " INTEGER," +
+                SUCCESS + " INTEGER );";
+
+
         db.execSQL(habitTable);
         db.execSQL(userTable);
 
@@ -61,13 +70,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_HABIT);
         onCreate(db);
     }
 
-    public boolean addHabitData(String item, String frequency, boolean reminders, String startDate, String endDate, String reminderTime, String userGUID){
+    public boolean addHabitData(String item, String frequency, boolean reminders, String startDate, String endDate, String reminderTime, String userGUID, String habitGUID){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put(COL0, habitGUID);
         contentValues.put(COL1, userGUID);
         contentValues.put(COL2, item);
         contentValues.put(COL3, frequency);
@@ -76,9 +86,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         contentValues.put(COL6, reminders);
         contentValues.put(COL7, reminderTime);
 
-        Log.d(TABLE_NAME, "addData: Adding " + item + "to " + TABLE_NAME);
+        Log.d(TABLE_HABIT, "addData: Adding " + item + "to " + TABLE_HABIT);
 
-        long result = db.insert(TABLE_NAME, null, contentValues);
+        long result = db.insert(TABLE_HABIT, null, contentValues);
 
         //if inserted incorrectly returns -1
 
@@ -132,6 +142,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return data;
 
     }
+
+    public Cursor getHabitGUID(String tableName, String habitGUID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + tableName + " WHERE HabitGuid = ?";
+
+
+
+        Cursor data = db.rawQuery(query, new String[] {habitGUID} );
+
+        return data;
+    }
+
+
 
 
 

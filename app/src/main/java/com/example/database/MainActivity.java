@@ -1,47 +1,41 @@
 package com.example.database;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.TypedArrayUtils;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+
 import android.app.PendingIntent;
+
+import android.app.Notification;
+
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.StringJoiner;
 import java.util.UUID;
 
 import static android.widget.Toast.makeText;
 
+
 public class MainActivity extends AppCompatActivity {
     private int notificationId = 1;
+
+    NotificationManagerCompat notificationManager;
+
 
     DatabaseHandler mDatabaseHandler;
     SharedPreferences sharedPreferences;
@@ -78,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         saturday = findViewById(R.id.saturday);
         tgbtn = findViewById(R.id.tgbtn1);
         mDatabaseHandler = new DatabaseHandler(this);
+
+        notificationManager = NotificationManagerCompat.from(this);
 
 
 
@@ -149,44 +145,48 @@ public class MainActivity extends AppCompatActivity {
 //                Intent userGUIDIntent = getIntent();
 //                String userGUID = userGUIDIntent.getStringExtra("userGUID");
                 String habitName = nameOfHabitEdit.getText().toString();
+                String habitGUID = UUID.randomUUID().toString();
                 String frequencyString = String.join(",", getFrequency());
                 boolean reminders = tgbtn.isChecked();
                 String startDate = startDateEdit.getText().toString();
                 String endDate = endDateEdit.getText().toString();
                 String reminderTime = reminderTimeEdit.getText().toString();
-                addData(habitName, frequencyString, reminders, startDate, endDate, reminderTime, userGUID);
+                addData(habitName, frequencyString, reminders, startDate, endDate, reminderTime, userGUID, habitGUID);
 
-                Habit newHabit = new Habit(habitName, frequencyString, startDate, endDate, reminders, reminderTime);
 
-                //Set notificationId & message
-                Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
-                intent.putExtra("notificationId", notificationId);
-                intent.putExtra("message", "You have a habit to keep: " + habitName);
-
-                //PendingIntent
-                PendingIntent alarmIntent = PendingIntent.getBroadcast(
-                        MainActivity.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT
-                );
-
-                // AlarmManager
-                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-                if (v.getId() == R.id.button) {
-                    // Set Alarm
-                    int hour = timeHour;
-                    int minute = timeMinutes;
-
-                    // Create time
-                    Calendar startTime = Calendar.getInstance();
-                    startTime.set(Calendar.HOUR_OF_DAY, hour);
-                    startTime.set(Calendar.MINUTE, minute);
-                    startTime.set(Calendar.SECOND, 0);
-                    long alarmSetTime = startTime.getTimeInMillis();
-
-                    // Set Alarm
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, alarmSetTime, alarmIntent);
-                    toastMessage("Done!");
-                }
+//                sendOnChannel1();
+//
+//                Habit newHabit = new Habit(habitGUID, habitName, frequencyString, startDate, endDate, reminders, reminderTime);
+//
+//                //Set notificationId & message
+//                Intent intent = new Intent(MainActivity.this, AlarmReceiver.class);
+//                intent.putExtra("notificationId", notificationId);
+//                intent.putExtra("message", "You have a habit to keep: " + habitName);
+//
+//                //PendingIntent
+//                PendingIntent alarmIntent = PendingIntent.getBroadcast(
+//                        MainActivity.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT
+//                );
+//
+//                // AlarmManager
+//                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//
+//                if (v.getId() == R.id.button) {
+//                    // Set Alarm
+//                    int hour = timeHour;
+//                    int minute = timeMinutes;
+//
+//                    // Create time
+//                    Calendar startTime = Calendar.getInstance();
+//                    startTime.set(Calendar.HOUR_OF_DAY, hour);
+//                    startTime.set(Calendar.MINUTE, minute);
+//                    startTime.set(Calendar.SECOND, 0);
+//                    long alarmSetTime = startTime.getTimeInMillis();
+//
+//                    // Set Alarm
+//                    alarmManager.set(AlarmManager.RTC_WAKEUP, alarmSetTime, alarmIntent);
+//                    toastMessage("Done!");
+//                }
 
 
 
@@ -196,8 +196,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void addData(String habitName, String frequency, boolean reminders, String startDate, String endDate, String reminderTime, String userGUID){
-        boolean insertData = mDatabaseHandler.addHabitData(habitName, frequency, reminders, startDate, endDate, reminderTime, userGUID);
+    private void addData(String habitName, String frequency, boolean reminders, String startDate, String endDate, String reminderTime, String userGUID, String habitGUID){
+        boolean insertData = mDatabaseHandler.addHabitData(habitName, frequency, reminders, startDate, endDate, reminderTime, userGUID, habitGUID);
         if(insertData){
             toastMessage("Data Successfully Inserted");
         } else {
@@ -234,4 +234,23 @@ public class MainActivity extends AppCompatActivity {
     private void toastMessage(String message){
         makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
+    private void sendOnChannel1() {
+
+        String habit = nameOfHabitEdit.getText().toString();
+
+        Notification notification = new NotificationCompat.Builder(this, App.CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.ic_habit)
+                .setContentTitle("Don't Forget About Your Habit")
+                .setContentText(habit)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+
+        notificationManager.notify(1, notification);
+    }
+
+
+
+
 }

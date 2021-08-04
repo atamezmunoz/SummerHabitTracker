@@ -15,6 +15,7 @@ public class Habit {
     /**
      * Constructs a habit with name, frequency, duration, reminders, reminderTime and completion attributes.
      */
+    String habitGuid;
     String name;
     String frequency;
     String startDate;
@@ -35,9 +36,10 @@ public class Habit {
      * @param reminderTime
      * @throws ParseException
      */
-    public Habit(String name, String frequency, String startDate, String endDate,
+    public Habit(String habitGuid, String name, String frequency, String startDate, String endDate,
                  boolean reminders, String reminderTime)
     {
+        this.habitGuid = habitGuid;
         this.name = name;
         this.frequency = frequency;
         this.startDate = startDate;
@@ -52,6 +54,10 @@ public class Habit {
     // Get the frequency list.
     public String[] getFrequencyList() {
         return frequency.split(",");
+    }
+
+    public String getHabitName() {
+        return name;
     }
 
     /**
@@ -157,10 +163,18 @@ public class Habit {
 
     }
 
-
-
-
-
-
-
+    @Override
+    public String toString() {
+        return "Habit{" +
+                "habitGuid='" + habitGuid + '\'' +
+                ", name='" + name + '\'' +
+                ", frequency='" + frequency + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", reminders=" + reminders +
+                ", reminderTime='" + reminderTime + '\'' +
+                ", total_completion=" + total_completion +
+                ", daily_completion=" + daily_completion +
+                '}';
+    }
 }
