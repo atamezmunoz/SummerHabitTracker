@@ -3,8 +3,14 @@ package com.example.database;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+<<<<<<< HEAD
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+=======
+import android.app.AlertDialog;
+import android.content.ContentValues;
+import android.content.DialogInterface;
+>>>>>>> f277f1d8df06d094b3524ae6a7874d80c17562a8
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -16,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -71,6 +78,9 @@ public class InProgressHabits extends AppCompatActivity {
         habitListView = findViewById(R.id.habitList);
 
         populateListView();
+        completeHabit();
+
+
 
         setAlarm();
 
@@ -149,18 +159,56 @@ public class InProgressHabits extends AppCompatActivity {
 
         ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, habitList);
         habitListView.setAdapter(adapter);
+
+        //delete habit
+        habitListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> adapterView, View view, int i, long l) {
+
+                final int item = i;
+
+
+                new AlertDialog.Builder(InProgressHabits.this)
+                        .setIcon(android.R.drawable.ic_delete)
+                        .setTitle("Are you sure ?")
+                        .setMessage("Do you want to delete this habit")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String habit = (String) habitListView.getItemAtPosition(item);
+                                habitList.remove(item);
+                                mDatabaseHandler.deleteHabit(habit);
+                                ((ArrayAdapter<?>) adapter).notifyDataSetChanged();
+
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+                return true;
+            }
+        });
+
     }
+
+
 
     private void completeHabit(){
         habitListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = (String) parent.getItemAtPosition(position);
-                //selectedItem.
+                String userGUID = "56017b6c-1fcb-484d-b3f2-a2e0b38c0bfa";
+                //sharedPreferences = getApplicationContext().getSharedPreferences("UserDB", MODE_PRIVATE);
+                //if (sharedPreferences != null) {
+                  //  userGUID = sharedPreferences.getString("uuid", "");
+                //}
+                mDatabaseHandler.updateCompleted(userGUID, selectedItem);
+                Toast.makeText(InProgressHabits.this, "Habit Completed", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+<<<<<<< HEAD
     private ArrayList<Habit> getHabits(String userGUID){
         //store all habitGUIDs in an arraylist
         Cursor data = mDatabaseHandler.getHabitList("habitTable",userGUID);
@@ -207,5 +255,8 @@ public class InProgressHabits extends AppCompatActivity {
     //private void updateCompleted(){
         //Cursor data = mDatabaseHandler.
     //}
+=======
+
+>>>>>>> f277f1d8df06d094b3524ae6a7874d80c17562a8
 
 }

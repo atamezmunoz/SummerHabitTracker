@@ -37,19 +37,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String COMPLETED = "DaysCompleted";
 
 
-
     public DatabaseHandler(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String userTable = "CREATE TABLE " + TABLE_USER +  " (" +
+        String userTable = "CREATE TABLE " + TABLE_USER + " (" +
                 FIRST_NAME + " TEXT, " +
                 LAST_NAME + " TEXT, " +
                 USER_GUID + " TEXT );";
 
-        String habitTable = "CREATE TABLE " + TABLE_HABIT +  " (" +
+        String habitTable = "CREATE TABLE " + TABLE_HABIT + " (" +
                 COL0 + " TEXT, " +
                 COL1 + " TEXT, " +
                 COL2 + " TEXT, " +
@@ -74,7 +73,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addHabitData(String item, String frequency, boolean reminders, String startDate, String endDate, String reminderTime, String userGUID, String habitGUID){
+    public boolean addHabitData(String item, String frequency, boolean reminders, String startDate, String endDate, String reminderTime, String userGUID, String habitGUID) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL0, habitGUID);
@@ -92,7 +91,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         //if inserted incorrectly returns -1
 
-        if(result == -1){
+        if (result == -1) {
             return false;
         } else {
             return true;
@@ -101,7 +100,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public boolean addUserData(String first, String last, String userGUID){
+    public boolean addUserData(String first, String last, String userGUID) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(FIRST_NAME, first);
@@ -114,7 +113,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         //if inserted incorrectly returns -1
 
-        if(result == -1){
+        if (result == -1) {
             return false;
         } else {
             return true;
@@ -122,7 +121,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     }
-    public Cursor getData(String tableName){
+
+    public Cursor getData(String tableName) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + tableName;
         Cursor data = db.rawQuery(query, null);
@@ -131,29 +131,29 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public Cursor getUserGUID(String tableName, String userGUID){
+    public Cursor getUserGUID(String tableName, String userGUID) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + tableName + " WHERE UserGuid = ?";
 
 
-
-        Cursor data = db.rawQuery(query, new String[] {userGUID} );
+        Cursor data = db.rawQuery(query, new String[]{userGUID});
 
         return data;
 
     }
 
-    public Cursor getHabitGUID(String tableName, String habitGUID){
+
+    public void updateCompleted(String userGuid, String habitName) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + tableName + " WHERE HabitGuid = ?";
+        ContentValues cv = new ContentValues();
+        cv.put(COMPLETED, getDaysCompleted(habitName) + 1);
+        db.update(TABLE_HABIT, cv,"UserGuid = ? AND HabitName = ?", new String[]{userGuid, habitName});
 
 
 
-        Cursor data = db.rawQuery(query, new String[] {habitGUID} );
-
-        return data;
     }
 
+<<<<<<< HEAD
     public Cursor getHabitList(String tableName, String userGUID){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + tableName + " WHERE UserGuid = ?";
@@ -163,9 +163,26 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return data;
     }
 
+=======
+    public void deleteHabit(String habitName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_HABIT, "HabitName = ?", new String[]{habitName});
+        //db.close();
+>>>>>>> f277f1d8df06d094b3524ae6a7874d80c17562a8
 
+    }
 
+    public int getDaysCompleted(String habitName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT DaysCompleted FROM " + TABLE_HABIT + " WHERE HabitName = ?";
+        Cursor data = db.rawQuery(query, new String[]{habitName});
+        int daysCompleted = -1;
 
-
-
+        if (data != null && data.getCount() > 0) {
+            data.moveToFirst();
+            daysCompleted = data.getInt(data.getColumnIndex(COMPLETED));
+            data.close();
+        }
+        return daysCompleted;
+    }
 }
