@@ -153,22 +153,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-<<<<<<< HEAD
-    public Cursor getHabitList(String tableName, String userGUID){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + tableName + " WHERE UserGuid = ?";
-
-        Cursor data = db.rawQuery(query, new String[] {userGUID} );
-
-        return data;
-    }
-
-=======
     public void deleteHabit(String habitName){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_HABIT, "HabitName = ?", new String[]{habitName});
         //db.close();
->>>>>>> f277f1d8df06d094b3524ae6a7874d80c17562a8
 
     }
 

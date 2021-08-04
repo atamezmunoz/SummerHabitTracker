@@ -12,7 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Database">
-        <activity android:name=".Notification"></activity>
+<!--        <activity android:name=".CardView">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+        <activity android:name=".Notification" />
         <activity
             android:name=".InProgressHabits"
             android:label="InProgress" />
@@ -38,7 +45,7 @@
             android:label="Add"
             android:parentActivityName=".HomeActivity" />
 
-        <receiver android:name=".AlarmReceiver"/>
+        <receiver android:name=".AlarmReceiver" />
 
         <meta-data
             android:name="preloaded_fonts"
