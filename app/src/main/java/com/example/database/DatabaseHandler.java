@@ -154,6 +154,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return data;
     }
 
+    public Cursor getHabitList(String tableName, String userGUID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + tableName + " WHERE UserGuid = ?";
+
+        Cursor data = db.rawQuery(query, new String[] {userGUID} );
+
+        return data;
+    }
+
 
 
 
