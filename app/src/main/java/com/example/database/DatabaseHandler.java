@@ -153,13 +153,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public void deleteHabit(String habitName){
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_HABIT, "HabitName = ?", new String[]{habitName});
-        //db.close();
-
-    }
-
     public int getDaysCompleted(String habitName){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT DaysCompleted FROM " + TABLE_HABIT + " WHERE HabitName = ?";
@@ -173,4 +166,31 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         return daysCompleted;
     }
+
+    public void deleteHabit(String habitName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_HABIT, "HabitName = ?", new String[]{habitName});
+        //db.close();
+
+    }
+
+    public int calculateTotalHabitsDone(String userGUID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT DaysCompleted FROM " + TABLE_HABIT + " WHERE UserGuid = ?";
+        Cursor data = db.rawQuery(query, new String[]{userGUID});
+        int habitsDone = -1;
+
+        if (data != null && data.getCount() > 0) {
+            try {
+                while (data.moveToNext()) {
+                    habitsDone += data.getInt(data.getColumnIndex(COMPLETED));
+                }
+            } finally {
+                data.close();
+            }
+        }
+
+        return habitsDone;
+    }
+
 }

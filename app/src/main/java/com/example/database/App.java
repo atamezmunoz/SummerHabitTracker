@@ -5,7 +5,7 @@ import android.app.NotificationManager;
 import android.os.Build;
 
 public class App extends android.app.Application {
-    public static final String CHANNEL_1_ID = "channel1";
+    public static final String CHANNEL_1_ID = "Habit Reminder";
 
 
     @Override
@@ -20,9 +20,9 @@ public class App extends android.app.Application {
             NotificationChannel channel1 = new NotificationChannel(
                     CHANNEL_1_ID,
                     "Channel 1",
-                    NotificationManager.IMPORTANCE_HIGH
+                    NotificationManager.IMPORTANCE_DEFAULT
             );
-            channel1.setDescription("Channel 1");
+            channel1.setDescription("Your Habit Reminder");
 
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel1);
