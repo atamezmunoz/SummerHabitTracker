@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.hardware.HardwareBuffer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -58,6 +59,7 @@ public class AccountSelection extends AppCompatActivity {
 
                 // Commits the changes and add them to the file
                 editor.apply();
+
             }
         });
     }
@@ -101,4 +103,5 @@ public class AccountSelection extends AppCompatActivity {
         return names;
 
     }
- }
+
+}
