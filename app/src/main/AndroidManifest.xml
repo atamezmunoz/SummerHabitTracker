@@ -8,23 +8,28 @@
         android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Habit Tracker"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Database">
-<!--        <activity android:name=".CardView">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
+        <activity android:name=".HabitStats"></activity>
+        <!-- <activity android:name=".CardView"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
         <activity android:name=".Notification" />
         <activity
             android:name=".InProgressHabits"
-            android:label="InProgress" />
-        <activity android:name=".AccountSelection" />
-        <activity android:name=".LoginActivity">
+            android:label="Your Habits" />
+        <activity
+            android:name=".AccountSelection"
+            android:label="Select an Account"/>
+
+        <activity
+            android:name=".LoginActivity">
+            android:label="Login or Create an Account"
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,13 +41,13 @@
             android:label="Home" />
         <activity
             android:name=".SettingsActivity"
-            android:label="Setting" />
+            android:label="Settings" />
         <activity
             android:name=".DashboardActivity"
             android:label="Dashboard" />
         <activity
             android:name=".MainActivity"
-            android:label="Add"
+            android:label="Add Habit"
             android:parentActivityName=".HomeActivity" />
 
         <receiver android:name=".AlarmReceiver" />

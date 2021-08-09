@@ -37,6 +37,7 @@ public class AccountSelection extends AppCompatActivity {
                 Intent sendUserGUID = new Intent(AccountSelection.this, InProgressHabits.class);
                 sendUserGUID.putExtra("userGUID", userGUIDList.get(i));
                 startActivity(sendUserGUID);
+                System.out.println(userGUIDList.get(i));
 
                 User newUser = new User();
                 String uuid = userGUIDList.get(i);

@@ -9,7 +9,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.StrikethroughSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -68,7 +72,7 @@ public class InProgressHabits extends AppCompatActivity {
 
         mDatabaseHandler = new DatabaseHandler(this);
         habitListView = findViewById(R.id.habitList);
-
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.holo_orange_dark)));
         populateListView();
         completeHabit();
 
@@ -138,14 +142,26 @@ public class InProgressHabits extends AppCompatActivity {
         habitListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItem = (String) parent.getItemAtPosition(position);
-                String userGUID = "56017b6c-1fcb-484d-b3f2-a2e0b38c0bfa";
-//                sharedPreferences = getApplicationContext().getSharedPreferences("UserDB", MODE_PRIVATE);
-//                if (sharedPreferences != null) {
-//                  userGUID = sharedPreferences.getString("uuid", "");
-//                }
+                //get habitName from list, and put it as extra in intent
+                String habitName = (String) parent.getItemAtPosition(position);
+                //retrieve userGUID from AccountList, and create a new intent to send userGUID to HabitStats
+                Intent userGUIDIntent = getIntent();
+                String userGUID = userGUIDIntent.getStringExtra("userGUID");
+                System.out.println(userGUID);
+
+                Intent sendHabitData = new Intent(InProgressHabits.this, HabitStats.class);
+                sendHabitData.putExtra("habitName", habitName);
+                sendHabitData.putExtra("userGuid", userGUID);
+
+                startActivity(sendHabitData);
+
+//                String selectedItem = (String) parent.getItemAtPosition(position);
+//                Intent userGUIDIntent = getIntent();
+//                String userGUID = userGUIDIntent.getStringExtra("userGUID");
+//                System.out.println(userGUID);
 //                mDatabaseHandler.updateCompleted(userGUID, selectedItem);
-                Toast.makeText(InProgressHabits.this, "Habit Completed", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(InProgressHabits.this, "Habit Completed", Toast.LENGTH_LONG).show();
+
             }
         });
     }

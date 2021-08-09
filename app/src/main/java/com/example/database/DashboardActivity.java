@@ -4,17 +4,25 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class DashboardActivity extends AppCompatActivity {
+    DatabaseHandler mDatabaseHandler;
+    TextView number2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        number2 = findViewById(R.id.number2);
+
+        mDatabaseHandler = new DatabaseHandler(this);
 
         //Initialize And Assign Variable
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -46,5 +54,13 @@ public class DashboardActivity extends AppCompatActivity {
                 return false;
             }
         });
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorGreen)));
+        loadHabitsDone();
+
+    }
+
+    private void loadHabitsDone(){
+        int habitsDone = mDatabaseHandler.calculateTotalHabitsDone("56017b6c-1fcb-484d-b3f2-a2e0b38c0bfa");
+        number2.setText(String.valueOf(habitsDone));
     }
 }
