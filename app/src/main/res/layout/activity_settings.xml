@@ -6,17 +6,209 @@
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/celebrityImage"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/trophy"
-        app:civ_border_color="#3F51B5"
-        app:civ_border_width="3dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:padding="20dp"
+            android:background="#FFE4E1">
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/user_potrait"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/full_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Li Liu"
+                android:textSize="20sp"
+                android:fontFamily="@font/aclonica"
+                android:layout_toRightOf="@id/profile_image"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"/>
+
+            <TextView
+                android:id="@+id/full_name_preview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Li Liu"
+                android:includeFontPadding="false"
+                android:textSize="14sp"
+                android:layout_toRightOf="@id/profile_image"
+                android:layout_below="@+id/full_name"
+                android:layout_marginLeft="10dp"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/full_name"
+                android:id="@+id/log_out"
+                android:text="Log out"
+                android:fontFamily="@font/aclonica"
+                android:background="#FFE4E1"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:layout_marginTop="-100dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="125dp"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+               app:cardBackgroundColor="#FFE4E1"
+                app:cardElevation="10dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5dp">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/trophy"
+                            android:layout_centerHorizontal="true"/>
+                    <TextView
+                        android:id="@+id/days_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:text="123"
+                        android:includeFontPadding="false"
+                        android:fontFamily="@font/aclonica"
+                        android:layout_centerInParent="true"/>
+
+                    <TextView
+                        android:id="@+id/days_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:text="Days"
+                        android:includeFontPadding="false"
+                        android:layout_centerInParent="true"
+                        android:layout_below="@+id/days_label"/>
+
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="125dp"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                app:cardBackgroundColor="#FFE4E1"
+                app:cardElevation="10dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5dp">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/crown"
+                        android:layout_centerHorizontal="true"/>
+                    <TextView
+                        android:id="@+id/habits_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:text="12"
+                        android:includeFontPadding="false"
+                        android:fontFamily="@font/aclonica"
+                        android:layout_centerInParent="true"/>
+
+                    <TextView
+                        android:id="@+id/habits_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:text="habits"
+                        android:includeFontPadding="false"
+                        android:layout_centerInParent="true"
+                        android:layout_below="@+id/habits_label"/>
+
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="First Name"
+                android:layout_marginBottom="10dp">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/profile_first_name"
+                    android:drawableLeft="@drawable/username_icon"
+                    android:drawablePadding="10dp"
+                    android:text="Li"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Last Name"
+                android:layout_marginBottom="10dp">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/profile_last_name"
+                    android:drawableLeft="@drawable/username_icon"
+                    android:drawablePadding="10dp"
+                    android:text="Liu"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/update"
+                android:layout_marginBottom="10dp"
+                android:text="Update"
+                android:fontFamily="@font/aclonica"
+                android:background="#FFE4E1"/>
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+<!--    <de.hdodenhof.circleimageview.CircleImageView-->
+<!--        android:id="@+id/celebrityImage"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="200dp"-->
+<!--        android:src="@drawable/trophy"-->
+<!--        app:civ_border_color="#3F51B5"-->
+<!--        app:civ_border_width="3dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
