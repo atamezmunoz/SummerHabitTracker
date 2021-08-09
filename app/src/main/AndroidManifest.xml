@@ -12,29 +12,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Database">
-        <activity android:name=".HabitStats"></activity>
-        <!-- <activity android:name=".CardView"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.MAIN" /> -->
-        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-        <!-- </intent-filter> -->
-        <!-- </activity> -->
-        <activity android:name=".Notification" />
-        <activity
-            android:name=".InProgressHabits"
-            android:label="Your Habits" />
-        <activity
-            android:name=".AccountSelection"
-            android:label="Select an Account"/>
-
-        <activity
-            android:name=".LoginActivity">
-            android:label="Login or Create an Account"
+        <activity android:name=".Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".HabitStats" /> <!-- <activity android:name=".CardView"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
+        <activity
+            android:name=".InProgressHabits"
+            android:label="Your Habits" />
+        <activity
+            android:name=".AccountSelection"
+            android:label="Select an Account" />
+        <activity android:name=".LoginActivity">
+            android:label="Login or Create an Account"
+
         </activity>
         <activity
             android:name=".HomeActivity"
@@ -49,8 +48,6 @@
             android:name=".MainActivity"
             android:label="Add Habit"
             android:parentActivityName=".HomeActivity" />
-
-        <receiver android:name=".AlarmReceiver" />
 
         <meta-data
             android:name="preloaded_fonts"
