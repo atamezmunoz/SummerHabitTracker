@@ -34,7 +34,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
         android:fontFamily="@font/aclonica"
-        android:text="Habit is what keeps you going"
+        android:text="Habits keep you going"
         android:textColor="#545454"
         android:textSize="20sp">
 

@@ -118,7 +118,7 @@
                         android:src="@drawable/crown"
                         android:layout_centerHorizontal="true"/>
                     <TextView
-                        android:id="@+id/habits_label"
+                        android:id="@+id/streak_data"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
@@ -128,14 +128,14 @@
                         android:layout_centerInParent="true"/>
 
                     <TextView
-                        android:id="@+id/habits_desc"
+                        android:id="@+id/streak_dsc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
                         android:text="habits"
                         android:includeFontPadding="false"
                         android:layout_centerInParent="true"
-                        android:layout_below="@+id/habits_label"/>
+                        android:layout_below="@+id/streak_data"/>
 
                 </RelativeLayout>
 

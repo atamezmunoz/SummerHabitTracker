@@ -9,6 +9,9 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import java.text.ParseException;
+import java.util.UUID;
+
 public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "HabitApp";
@@ -143,6 +146,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
+
     public void updateCompleted(String userGuid, String habitName) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -193,4 +197,77 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return habitsDone;
     }
 
+    public int getCompletedDays(String userGUID, String habitName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_HABIT + " WHERE UserGuid = ? AND HabitName = ?";
+        Cursor data = db.rawQuery(query, new String[]{userGUID, habitName});
+        int daysCompleted = 0;
+        if(data.getCount() > 0) {
+            data.moveToFirst();
+            daysCompleted = data.getInt(data.getColumnIndex(COMPLETED));
+        }
+        return daysCompleted;
+    }
+
+    public int getSuccessRate(String userGUID, String habitName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_HABIT + " WHERE UserGuid = ? AND HabitName = ?";
+        Cursor data = db.rawQuery(query, new String[]{userGUID, habitName});
+
+        int successRate = 0;
+        if(data.getCount() > 0) {
+            data.moveToFirst();
+            successRate = data.getInt(data.getColumnIndex(SUCCESS));
+        }
+        return successRate;
+
+    }
+
+    public void updateSuccessRate(String userGUID, String habitName) throws ParseException {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        String query = "SELECT * FROM " + TABLE_HABIT + " WHERE UserGuid = ? AND HabitName = ?";
+        Cursor data = db.rawQuery(query, new String[]{userGUID, habitName});
+        float successRate = 0;
+
+        if (data != null && data.getCount() > 0) {
+            data.moveToFirst();
+            String startDate = data.getString(data.getColumnIndex(COL4));
+            String endDate = data.getString(data.getColumnIndex(COL5));
+            String frequency = data.getString(data.getColumnIndex(COL3));
+            double daysCompleted = data.getInt(data.getColumnIndex(COMPLETED));
+            Habit habit = new Habit("", "", frequency, startDate, endDate, true, "");
+            double getDays = habit.getDays(startDate, endDate);
+            successRate = (float) (daysCompleted/getDays);
+            System.out.println(daysCompleted);
+            System.out.println(getDays);
+            System.out.println(successRate);
+        }
+
+        cv.put(SUCCESS, 100 * successRate);
+        db.update(TABLE_HABIT, cv,"UserGuid = ? AND HabitName = ?", new String[]{userGUID, habitName});
+
+
+    }
+
+    public int getStreak(String userGUID, String habitName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_HABIT + " WHERE UserGuid = ? AND HabitName = ?";
+        Cursor data = db.rawQuery(query, new String[]{userGUID, habitName});
+        int streak = 0;
+        if(data.getCount() > 0){
+            data.moveToFirst();
+            streak = data.getInt(data.getColumnIndex(STREAK));
+        }
+        return streak;
+        }
+
+        public void updateStreak(String userGUID, String habitName){
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues cv = new ContentValues();
+            cv.put(STREAK, getStreak(userGUID, habitName) + 1);
+            db.update(TABLE_HABIT, cv,"UserGuid = ? AND HabitName = ?", new String[]{userGUID, habitName});
+        }
+
 }
+

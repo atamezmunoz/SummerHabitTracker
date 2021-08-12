@@ -82,7 +82,7 @@ public class Habit {
      * @return
      * @throws ParseException
      */
-    private long getDays(String startDate, String endDate) throws ParseException {
+    public long getDays(String startDate, String endDate) throws ParseException {
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         Date start = format.parse(startDate);
         Date end = format.parse(endDate);

@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+
 public class HabitStats extends AppCompatActivity {
 
     DatabaseHandler mDatabaseHandler;
@@ -39,39 +41,60 @@ public class HabitStats extends AppCompatActivity {
 
         habitNameView = (TextView) findViewById(R.id.habitNameView);
 
-        successRateView = findViewById(R.id.successRateView);
-        successRateDataView = findViewById(R.id.successRateDataView);
-        streakView = findViewById(R.id.streakView);
-        streakDataView = findViewById(R.id.streakDataView);
-        daysCompletedView = findViewById(R.id.daysCompletedView);
-        daysCompletedDataView = findViewById(R.id.daysCompletedDataView);
+        successRateView = findViewById(R.id.success_dsc);
+        successRateDataView = findViewById(R.id.success_data);
+        streakView = findViewById(R.id.streak_dsc);
+        streakDataView = findViewById(R.id.streak_data);
+        daysCompletedView = findViewById(R.id.days_desc);
+        daysCompletedDataView = findViewById(R.id.days_label);
 
-        successRateView.setText("Success Rate");
-        streakView.setText("Best Streak");
-        daysCompletedView.setText("Days Completed");
+        Intent habitNameIntent = getIntent();
+        habitName = habitNameIntent.getStringExtra("habitName");
+        Intent userGUIDIntent = getIntent();
+        userGUID = userGUIDIntent.getStringExtra("userGuid");
 
+        habitNameView.setText(habitName);
+        setDaysCompletedDataView();
+        setSuccessRateDataView();
+        setStreakDataView();
 
         markAsCompletedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                markAsCompleted();
+                try {
+                    markAsCompleted();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.holo_orange_dark)));
     }
 
-    public void markAsCompleted(){
-        Intent habitNameIntent = getIntent();
-        habitName = habitNameIntent.getStringExtra("habitName");
-        System.out.println("Habit name"+ habitName);
-        Intent userGUIDIntent = getIntent();
-        userGUID = userGUIDIntent.getStringExtra("userGuid");
-        System.out.println(userGUID);
+    public void markAsCompleted() throws ParseException {
         mDatabaseHandler.updateCompleted(userGUID, habitName);
+        mDatabaseHandler.updateSuccessRate(userGUID, habitName);
+        mDatabaseHandler.updateStreak(userGUID, habitName);
         Toast.makeText(HabitStats.this, "Habit Completed", Toast.LENGTH_LONG).show();
+        finish();
+        startActivity(getIntent());
 
 
     }
+
+    public void setDaysCompletedDataView(){
+        daysCompletedDataView.setText(String.valueOf(mDatabaseHandler.getCompletedDays(userGUID, habitName)));
+    }
+
+    public void setSuccessRateDataView(){
+        successRateDataView.setText(String.valueOf(mDatabaseHandler.getSuccessRate(userGUID, habitName)));
+    }
+
+    public void setStreakDataView(){
+        streakDataView.setText(String.valueOf(mDatabaseHandler.getStreak(userGUID, habitName)));
+    }
+
+
 
 }
